@@ -1,6 +1,6 @@
- Heart Disease Prediction Web App
+# Heart Disease Prediction Web App
 
- Project Overview
+## Project Overview
 
 This project is a Machine Learning based Heart Disease Prediction Web Application developed using Python, Flask, HTML, and Scikit-learn.
 
@@ -8,8 +8,9 @@ The application allows users to enter medical details through a frontend form an
 
 The trained Random Forest Machine Learning model is integrated with a Flask backend and deployed locally through a web interface.
 
+---
 
- Features
+# Features
 
 * Heart disease prediction using Machine Learning
 * Frontend form interface using HTML
@@ -18,8 +19,9 @@ The trained Random Forest Machine Learning model is integrated with a Flask back
 * Input preprocessing using MinMaxScaler
 * Real-time prediction output
 
+---
 
- Technologies Used
+# Technologies Used
 
 * Python
 * Flask
@@ -28,9 +30,11 @@ The trained Random Forest Machine Learning model is integrated with a Flask back
 * NumPy
 * Pickle
 
+---
 
- Project Structure
- 
+# Project Structure
+
+```text
 heart disease prediction model/
 │
 ├── app.py
@@ -43,11 +47,13 @@ heart disease prediction model/
 │     └── home.html
 │
 └── analysis_heart_disease.ipynb
+```
 
+---
 
+# How the Project Works
 
- How the Project Works
-
+```text
 User Input Form
        ↓
 Flask Backend
@@ -57,9 +63,11 @@ Data Preprocessing using Scaler
 Random Forest ML Model
        ↓
 Prediction Output
+```
 
+---
 
- Machine Learning Model
+# Machine Learning Model
 
 The project uses:
 
@@ -71,69 +79,73 @@ Prediction Output:
 * 0 → No Heart Disease
 * 1 → Heart Disease
 
+---
 
+# Setup Instructions
 
- Setup Instructions
-
- Step 1: Clone or Download the Project
+## Step 1: Clone or Download the Project
 
 Download the project folder and open it in VS Code.
 
+---
 
- Step 2: Install Python
+## Step 2: Install Python
 
 Make sure Python is installed.
 
 Check version:
 
-
+```bash
 python --version
+```
 
+---
 
-
- Step 3: Install Required Libraries
+## Step 3: Install Required Libraries
 
 Open terminal inside the project folder and run:
 
-
+```bash
 pip install -r requirements.txt
-
+```
 
 If requirements.txt is not available, install manually:
 
-
+```bash
 pip install flask numpy pandas scikit-learn
+```
 
+---
 
-
- Step 4: Run the Flask Application
+# Step 4: Run the Flask Application
 
 Open terminal in the project folder and run:
 
-
+```bash
 python app.py
-
+```
 
 You will see:
 
-
+```text
 Running on http://127.0.0.1:5000
+```
 
+---
 
-
-
- Step 5: Open in Browser
+# Step 5: Open in Browser
 
 Open:
 
-
+```text
 http://127.0.0.1:5000
-
+```
 
 Enter patient medical details in the form and click Predict.
 
+---
 
- Input Parameters
+# Input Parameters
 
 The application accepts the following medical inputs:
 
@@ -152,9 +164,10 @@ The application accepts the following medical inputs:
 * Heart Rate
 * Glucose Level
 
+---
 
 
- Deployment Explanation
+# Deployment Explanation
 
 I deployed my Heart Disease Prediction Machine Learning model using Flask and created a frontend form interface where users can enter medical details and get predictions.
 
@@ -162,8 +175,10 @@ The frontend is developed using HTML forms and the backend is implemented using 
 The trained Random Forest model processes user inputs and returns prediction results in real time.
 
 
+---
 
- Author
+# Author
 
 Sara Maryam
 B.Tech Electrical Engineering
+
