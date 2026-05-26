@@ -7,7 +7,7 @@ rf_model=pickle.load(open("rf_model (1).pkl","rb"))
 scalar = pickle.load(open("scaler.pkl", "rb"))
 @app.route("/")
 def home():
-    return render_template("home html") 
+    return render_template("home.html") 
 
 @app.route("/predict_api", methods=["post"])
 
@@ -19,6 +19,15 @@ def predict_api():
     output=rf_model.predict(new_data)
     print(output[0])
     return jsonify(int(output[0]))
+
+@app.route ("/predict", methods=["post"])
+def predict():
+    data=[float(x) for x in request.form.values()]
+    final_input=scalar.transform(np.array(data).reshape(1,-1))
+    print(final_input)
+    output=rf_model.predict(final_input)[0]
+    return render_template("home.html",prediction_text="The chances of Heart Disease is (0=no,1=yes): {}".format(output))
+
 
 if __name__ =="__main__":
     app.run(debug=True)
