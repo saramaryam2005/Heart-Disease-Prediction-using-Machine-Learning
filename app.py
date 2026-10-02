@@ -26,6 +26,8 @@ def predict():
     final_input=scalar.transform(np.array(data).reshape(1,-1))
     print(final_input)
     output=rf_model.predict(final_input)[0]
+                   
+    
     return render_template("home.html",prediction_text="The chances of Heart Disease is (0=no,1=yes): {}".format(output))
 
 

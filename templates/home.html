@@ -1,41 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ML API</title>
-    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
- <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
- <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
- <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Disease Risk Predictor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
 </head>
-<body>
-    <div class="login">
-        <h1>Hear Disease Prediction</h1>
-         <!-- Main Input For Recieving Query to our ML-->
-        <form action="{{ url_for('predict') }}" method="POST">
-        
-          <input type="text" name="male" placeholder="write 0 for female , 1 for male" required="required" /><br>
-          <input type="text" name="age" placeholder="age" required="required" /><br>
-          <input type="text" name="currentSmoker" placeholder="write 1 if smokes otherwise 0" required="required" /><br>
-          <input type="text" name="cigsPerDay" placeholder ="cigarette per day" required="required" /><br>
-          <input type="text" name="BPMeds"  placeholder ="Bp medicines , write 1 for yes , 0 for no"  required="required" /><br>
-          <input type="text" name=" prevalentStroke" placeholder ="write 1 if any stroke otherwise 0" required="required" /><br>
-          <input type="text" name="prevalentHyp"placeholder = "Prevalent Hypertension, write 1 if yes otherwise 0" required="required" /><br>
-          <input type="text"name="diabetes" placeholder ="write 1 for diabetic patient otherwise 0" required="required" /><br>
-          <input type="text"name="totChol"  placeholder ="total cholestrol level" required="required" /><br>
-          <input type="text"name="sysBP" placeholder ="systolic BP" required="required" /><br>
-          <input type="text"name="diaBP"  placeholder ="Diastolic BP" required="required" /><br>
-          <input type="text"name="BMI" placeholder ="BMI" required="required" /><br>
-          <input type="text"name="heartRate" placeholder ="heartRat" required="required" /><br>
-          <input type="text"name="glucose" placeholder="glucose level" required="required" /><br>
-          <button type ="submit" class="btn btn-primary btn-block btn-large"> Predict </button>
-        </form>
-        <br>
-        <br>
+<body class="bg-gradient-to-br from-slate-100 via-rose-50/40 to-slate-100 min-h-screen py-10 px-4 flex items-center justify-center">
+
+  <div class="w-full max-w-4xl bg-white shadow-xl shadow-rose-950/5 rounded-3xl border border-slate-200/80 overflow-hidden">
+    
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-rose-600 via-red-600 to-rose-700 px-8 py-7 text-white flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center shadow-inner">
+          <i class="fa-solid fa-heart-pulse text-2xl text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold tracking-tight">Heart Disease Prediction</h1>
+          <p class="text-rose-100 text-xs sm:text-sm mt-0.5">Clinical Risk Assessment powered by Machine Learning</p>
+        </div>
+      </div>
+      <div class="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 text-xs font-medium">
+        <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+        <span>Model Ready</span>
+      </div>
     </div>
-    {{prediction_text}}
+
+    <!-- Prediction Output Banner -->
+    {% if prediction_text %}
+    <div class="mx-8 mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-rose-200/80 text-rose-700 flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-notes-medical"></i>
+      </div>
+      <div class="font-semibold text-sm sm:text-base leading-snug">
+        {{ prediction_text }}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Input Form -->
+    <form action="{{ url_for('predict') }}" method="POST" class="p-8 space-y-8">
+      
+      <!-- Group 1: Patient Demographics & Lifestyle -->
+      <div>
+        <div class="flex items-center gap-2 mb-4 text-xs font-bold uppercase tracking-wider text-slate-400">
+          <i class="fa-solid fa-user-doctor text-rose-500"></i>
+          <span>Demographics & Habits</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Gender</label>
+            <select name="male" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+              <option value="" disabled selected>Select Gender</option>
+              <option value="1">Male</option>
+              <option value="0">Female</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Age</label>
+            <input type="number" step="any" name="age" placeholder="e.g. 52" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Current Smoker</label>
+            <select name="currentSmoker" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Cigarettes Per Day</label>
+            <input type="number" step="any" name="cigsPerDay" placeholder="e.g. 0" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">BP Medication</label>
+            <select name="BPMeds" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Stroke History</label>
+            <select name="prevalentStroke" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group 2: Clinical Vitals & Lab Measurements -->
+      <div>
+        <div class="flex items-center gap-2 mb-4 text-xs font-bold uppercase tracking-wider text-slate-400">
+          <i class="fa-solid fa-stethoscope text-rose-500"></i>
+          <span>Clinical & Laboratory Values</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Prevalent Hypertension</label>
+            <select name="prevalentHyp" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Diabetes</label>
+            <select name="diabetes" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Total Cholesterol</label>
+            <input type="number" step="any" name="totChol" placeholder="mg/dL" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Systolic BP</label>
+            <input type="number" step="any" name="sysBP" placeholder="mmHg" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Diastolic BP</label>
+            <input type="number" step="any" name="diaBP" placeholder="mmHg" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">BMI</label>
+            <input type="number" step="any" name="BMI" placeholder="kg/m²" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Heart Rate</label>
+            <input type="number" step="any" name="heartRate" placeholder="bpm" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">Glucose Level</label>
+            <input type="number" step="any" name="glucose" placeholder="mg/dL" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="pt-2">
+        <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-wand-magic-sparkles text-sm text-rose-400"></i>
+          <span>Run Risk Prediction</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
 
 </body>
 </html>
