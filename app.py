@@ -6,9 +6,19 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Model aur scaler load karein
-rf_model = pickle.load(open("rf_model.pkl", "rb"))
-scalar = pickle.load(open("scaler.pkl", "rb"))
+# Base directory path detect karein
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Model file dhoondhne ke liye check karein
+model_filename = "rf_model.pkl"
+if not os.path.exists(os.path.join(BASE_DIR, model_filename)):
+    # Agar repo mein space/bracket wala naam ho:
+    model_filename = "rf_model (1).pkl"
+
+scaler_filename = "scaler.pkl"
+
+rf_model = pickle.load(open(os.path.join(BASE_DIR, model_filename), "rb"))
+scalar = pickle.load(open(os.path.join(BASE_DIR, scaler_filename), "rb"))
 
 @app.route("/")
 def home():
@@ -29,7 +39,7 @@ def predict():
     
     return render_template(
         "home.html",
-        prediction_text="The chances of Heart Disease is (0=no, 1=yes): {}".format(int(output))
+        prediction_text=f"The chances of Heart Disease is (0=No, 1=Yes): {int(output)}"
     )
 
 if __name__ == "__main__":
